@@ -7,15 +7,25 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
 
-// MongoDB Connection
+// Middleware
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
+
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://your-frontend-domain.repl.co'], 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+  })
+);
+
+
 mongoose.connect('mongodb+srv://admin:admin%402023@cluster0.u3djt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Todo Schema
+
 const todoSchema = new mongoose.Schema({
   title: { type: String, required: true },
   completed: { type: Boolean, default: false },
@@ -71,6 +81,8 @@ app.delete('/api/todos/:id', async (req, res) => {
   }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+  });
+  
