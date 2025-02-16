@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://your-frontend-domain.repl.co','http://localhost:57787'], 
+    origin: ['http://localhost:3000', 'https://your-frontend-domain.repl.co'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   })
